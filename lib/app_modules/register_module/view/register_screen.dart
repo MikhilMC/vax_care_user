@@ -1,0 +1,267 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:vax_care_user/app_constants/app_colors.dart';
+import 'package:vax_care_user/app_modules/add_child_module/view/add_child_screen.dart';
+import 'package:vax_care_user/app_modules/login_module/view/login_screen.dart';
+import 'package:vax_care_user/app_widgets/form_logo.dart';
+import 'package:vax_care_user/app_widgets/multi_line_text_field.dart';
+import 'package:vax_care_user/app_widgets/normal_text_field.dart';
+import 'package:vax_care_user/app_widgets/password_text_field.dart';
+
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+
+  final List<String> _relationships = ["Mother", "Father", "Other"];
+  String? _selectedRelationshilp;
+  File? _profileImage;
+
+  @override
+  void dispose() {
+    // Dispose controllers to avoid memory leaks
+    _fullNameController.dispose();
+    _emailController.dispose();
+    _phoneNumberController.dispose();
+    _passwordController.dispose();
+    _addressController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _profileImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  void _register() {
+    FocusScope.of(context).unfocus();
+    if (_formKey.currentState!.validate()) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => AddChildScreen(
+            isLoggedIn: false,
+            parentId: 2,
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
+    return Scaffold(
+      body: Form(
+        key: _formKey,
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: screenSize.width * 0.05,
+              vertical: screenSize.height * 0.05,
+            ),
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: screenSize.width * 0.85),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FormLogo(),
+                    _gap(context),
+                    // Profile Picture Upload
+                    InkWell(
+                      onTap: _pickImage,
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.grey[300],
+                        backgroundImage: _profileImage != null
+                            ? FileImage(_profileImage!)
+                            : null,
+                        child: _profileImage == null
+                            ? const Icon(
+                                Icons.camera_alt,
+                                size: 40,
+                                color: Colors.black54,
+                              )
+                            : null,
+                      ),
+                    ),
+                    _gap(context),
+                    NormalTextField(
+                      textEditingController: _fullNameController,
+                      validatorFunction: (value) {
+                        // add email validation
+                        // if (value == null || value.isEmpty) {
+                        //   return 'Please enter full name';
+                        // }
+
+                        return null;
+                      },
+                      labelText: 'Full Name',
+                      hintText: 'Enter your full name',
+                      textFieldIcon: Icon(Icons.person),
+                    ),
+                    _gap(context),
+                    NormalTextField(
+                      textEditingController: _emailController,
+                      validatorFunction: (value) {
+                        // add email validation
+                        // if (value == null || value.isEmpty) {
+                        //   return 'Please enter email';
+                        // }
+
+                        // bool emailValid = RegExp(
+                        //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        //     .hasMatch(value);
+                        // if (!emailValid) {
+                        //   return 'Please enter a valid email';
+                        // }
+
+                        return null;
+                      },
+                      labelText: 'Email',
+                      hintText: 'Enter your email',
+                      textFieldIcon: Icon(Icons.email_outlined),
+                      textInputType: TextInputType.emailAddress,
+                    ),
+                    _gap(context),
+                    NormalTextField(
+                      textEditingController: _phoneNumberController,
+                      validatorFunction: (value) {
+                        // add phone number validation
+                        // if (value == null || value.isEmpty) {
+                        //   return 'Please enter phone number';
+                        // }
+
+                        // bool phoneValid =
+                        //     RegExp(r"^(\+91|\+91\-|0)?[789]\d{9}$")
+                        //         .hasMatch(value);
+                        // if (!phoneValid) {
+                        //   return 'Please enter a valid phone number';
+                        // }
+
+                        return null;
+                      },
+                      labelText: 'Phone Number',
+                      hintText: 'Enter your phone number',
+                      textInputType: TextInputType.phone,
+                      textFieldIcon: Icon(Icons.phone),
+                    ),
+                    _gap(context),
+                    MultilineTextField(
+                      label: "Address",
+                      controller: _addressController,
+                      hintText: "Enter your address",
+                      icon: Icon(Icons.home),
+                      validatorFunction: (value) {
+                        // if (value == null || value.isEmpty) {
+                        //   return 'Please select an option';
+                        // }
+                        return null;
+                      },
+                    ),
+                    _gap(context),
+                    DropdownButtonFormField<String>(
+                      value: _selectedRelationshilp,
+                      items: _relationships.map((option) {
+                        return DropdownMenuItem(
+                          value: option,
+                          child: Text(option),
+                        );
+                      }).toList(),
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedRelationshilp = newValue;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: "Relationship with the child",
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        // if (value == null || value.isEmpty) {
+                        //   return 'Please select an option';
+                        // }
+                        return null;
+                      },
+                    ),
+                    _gap(context),
+                    PasswordTextField(
+                      passwordController: _passwordController,
+                    ),
+                    _gap(context),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          backgroundColor: AppColors.primaryColor,
+                        ),
+                        onPressed: _register,
+                        child: const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text(
+                            'Register',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      persistentFooterButtons: [
+        InkWell(
+          onTap: () => Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => LoginScreen(),
+            ),
+          ),
+          child: Text(
+            "Login Account",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
+            ),
+          ),
+        )
+      ],
+      persistentFooterAlignment: AlignmentDirectional.center,
+    );
+  }
+
+  Widget _gap(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    return SizedBox(height: screenSize.height * 0.025);
+  }
+}
