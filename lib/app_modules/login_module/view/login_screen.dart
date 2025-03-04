@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vax_care_user/app_constants/app_colors.dart';
+import 'package:vax_care_user/app_modules/add_child_module/view/add_child_screen.dart';
 import 'package:vax_care_user/app_modules/home_page_module/view/home_screen.dart';
+import 'package:vax_care_user/app_modules/login_module/bloc/parent_login_bloc.dart';
+import 'package:vax_care_user/app_modules/login_module/class/login_details.dart';
 import 'package:vax_care_user/app_modules/register_module/view/register_screen.dart';
+import 'package:vax_care_user/app_utils/app_helpers.dart';
+import 'package:vax_care_user/app_widgets/custom_button.dart';
 import 'package:vax_care_user/app_widgets/form_logo.dart';
 import 'package:vax_care_user/app_widgets/normal_text_field.dart';
+import 'package:vax_care_user/app_widgets/overlay_loader_widget.dart';
 import 'package:vax_care_user/app_widgets/password_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -29,11 +36,18 @@ class _LoginScreenState extends State<LoginScreen> {
   void _login() {
     FocusScope.of(context).unfocus();
     if (_formKey.currentState!.validate()) {
-      Navigator.pushReplacement(
+      LoginDetails loginDetails = LoginDetails(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      final parentLoginBloc = BlocProvider.of<ParentLoginBloc>(context);
+
+      parentLoginBloc.add(ParentLoginEvent.loggedIn(loginDetails));
+    } else {
+      AppHelpers.showErrorDialogue(
         context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ),
+        "Please add both email and password.",
       );
     }
   }
@@ -43,77 +57,122 @@ class _LoginScreenState extends State<LoginScreen> {
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Center(
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: screenSize.width * 0.05,
-              vertical: screenSize.height * 0.05,
-            ),
-            constraints: BoxConstraints(maxWidth: screenSize.width * 0.85),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FormLogo(),
-                  _gap(),
-                  NormalTextField(
-                    textEditingController: _emailController,
-                    validatorFunction: (value) {
-                      // add email validation
-                      // if (value == null || value.isEmpty) {
-                      //   return 'Please enter some text';
-                      // }
-
-                      // bool emailValid = RegExp(
-                      //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      //     .hasMatch(value);
-                      // if (!emailValid) {
-                      //   return 'Please enter a valid email';
-                      // }
-
-                      return null;
-                    },
-                    labelText: 'Email',
-                    hintText: 'Enter your email',
-                    textFieldIcon: Icon(Icons.email_outlined),
-                    textInputType: TextInputType.emailAddress,
-                  ),
-                  _gap(),
-                  PasswordTextField(
-                    passwordController: _passwordController,
-                  ),
-                  _gap(),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        backgroundColor: AppColors.primaryColor,
-                      ),
-                      onPressed: _login,
-                      child: const Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
+      body: BlocConsumer<ParentLoginBloc, ParentLoginState>(
+        listener: (context, state) {
+          state.whenOrNull(
+            loading: () {},
+            success: (response) {
+              if (response.status == "success") {
+                if ((response.data?.noOfChildren ?? 0) == 0) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content:
+                          Text('You need to add atleast one of your children'),
+                    ),
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddChildScreen(
+                        isLoggedIn: true,
+                        parentId: response.data!.id!,
                       ),
                     ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Login successfully',
+                      ),
+                    ),
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomeScreen(),
+                    ),
+                  );
+                }
+              } else {
+                AppHelpers.showErrorDialogue(
+                  context,
+                  "Login Failed",
+                );
+              }
+            },
+            failure: (errorMessage) => AppHelpers.showErrorDialogue(
+              context,
+              "Login Failed: $errorMessage",
+            ),
+          );
+        },
+        builder: (context, state) {
+          bool isLoading = state.maybeWhen(
+            loading: () => true,
+            orElse: () => false,
+          );
+          return OverlayLoaderWidget(
+            isLoading: isLoading,
+            childWidget: Form(
+              key: _formKey,
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenSize.width * 0.05,
+                    vertical: screenSize.height * 0.05,
                   ),
-                ],
+                  constraints:
+                      BoxConstraints(maxWidth: screenSize.width * 0.85),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FormLogo(),
+                        _gap(),
+                        NormalTextField(
+                          textEditingController: _emailController,
+                          validatorFunction: (value) {
+                            // add email validation
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter some text';
+                            }
+
+                            bool emailValid = RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value);
+                            if (!emailValid) {
+                              return 'Please enter a valid email';
+                            }
+
+                            return null;
+                          },
+                          labelText: 'Email',
+                          hintText: 'Enter your email',
+                          textFieldIcon: Icon(Icons.email_outlined),
+                          textInputType: TextInputType.emailAddress,
+                        ),
+                        _gap(),
+                        PasswordTextField(
+                          passwordController: _passwordController,
+                        ),
+                        _gap(),
+                        CustomButton(
+                          buttonWidth: double.infinity,
+                          backgroundColor: AppColors.primaryColor,
+                          textColor: Colors.white,
+                          labelText: "Login",
+                          onClick: _login,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
       persistentFooterButtons: [
         InkWell(
