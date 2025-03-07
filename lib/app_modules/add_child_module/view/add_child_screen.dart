@@ -148,12 +148,9 @@ class _AddChildScreenState extends State<AddChildScreen> {
             loading: () {},
             success: (response) {
               if (response.status == "success") {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Child added successfully',
-                    ),
-                  ),
+                AppHelpers.showCustomSnackBar(
+                  context,
+                  "Child added successfully",
                 );
                 if (!widget.isLoggedIn) {
                   Navigator.pushReplacement(

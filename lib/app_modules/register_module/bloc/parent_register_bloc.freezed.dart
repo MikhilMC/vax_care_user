@@ -640,8 +640,6 @@ abstract class _$$successImplCopyWith<$Res> {
       __$$successImplCopyWithImpl<$Res>;
   @useResult
   $Res call({RegisterResponseModel response});
-
-  $RegisterResponseModelCopyWith<$Res> get response;
 }
 
 /// @nodoc
@@ -665,16 +663,6 @@ class __$$successImplCopyWithImpl<$Res>
           : response // ignore: cast_nullable_to_non_nullable
               as RegisterResponseModel,
     ));
-  }
-
-  /// Create a copy of ParentRegisterState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $RegisterResponseModelCopyWith<$Res> get response {
-    return $RegisterResponseModelCopyWith<$Res>(_value.response, (value) {
-      return _then(_value.copyWith(response: value));
-    });
   }
 }
 

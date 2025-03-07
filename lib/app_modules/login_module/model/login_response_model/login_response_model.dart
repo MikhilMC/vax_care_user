@@ -2,13 +2,9 @@
 //
 //     final loginResponseModel = loginResponseModelFromJson(jsonString);
 
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:convert';
 
 import 'package:vax_care_user/app_modules/login_module/model/login_data_model.dart/login_data_model.dart';
-
-part 'login_response_model.freezed.dart';
-part 'login_response_model.g.dart';
 
 LoginResponseModel loginResponseModelFromJson(String str) =>
     LoginResponseModel.fromJson(json.decode(str));
@@ -16,14 +12,27 @@ LoginResponseModel loginResponseModelFromJson(String str) =>
 String loginResponseModelToJson(LoginResponseModel data) =>
     json.encode(data.toJson());
 
-@freezed
-class LoginResponseModel with _$LoginResponseModel {
-  const factory LoginResponseModel({
-    String? status,
-    String? message,
-    LoginDataModel? data,
-  }) = _LoginResponseModel;
+class LoginResponseModel {
+  String status;
+  String message;
+  LoginDataModel data;
+
+  LoginResponseModel({
+    required this.status,
+    required this.message,
+    required this.data,
+  });
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$LoginResponseModelFromJson(json);
+      LoginResponseModel(
+        status: json["status"],
+        message: json["message"],
+        data: LoginDataModel.fromJson(json["data"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+        "data": data.toJson(),
+      };
 }

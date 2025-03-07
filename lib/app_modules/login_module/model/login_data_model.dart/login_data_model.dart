@@ -2,31 +2,57 @@
 //
 //     final loginDataModel = loginDataModelFromJson(jsonString);
 
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:convert';
-
-part 'login_data_model.freezed.dart';
-part 'login_data_model.g.dart';
 
 LoginDataModel loginDataModelFromJson(String str) =>
     LoginDataModel.fromJson(json.decode(str));
 
 String loginDataModelToJson(LoginDataModel data) => json.encode(data.toJson());
 
-@freezed
-class LoginDataModel with _$LoginDataModel {
-  const factory LoginDataModel({
-    int? id,
-    String? name,
-    String? email,
-    String? phone,
-    String? password,
-    String? address,
-    String? relationship,
-    int? noOfChildren,
-    String? image,
-  }) = _LoginDataModel;
+class LoginDataModel {
+  int id;
+  String name;
+  String email;
+  String phone;
+  String password;
+  String address;
+  String relationship;
+  int noOfChildren;
+  String image;
 
-  factory LoginDataModel.fromJson(Map<String, dynamic> json) =>
-      _$LoginDataModelFromJson(json);
+  LoginDataModel({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.phone,
+    required this.password,
+    required this.address,
+    required this.relationship,
+    required this.noOfChildren,
+    required this.image,
+  });
+
+  factory LoginDataModel.fromJson(Map<String, dynamic> json) => LoginDataModel(
+        id: json["id"],
+        name: json["name"],
+        email: json["email"],
+        phone: json["phone"],
+        password: json["password"],
+        address: json["address"],
+        relationship: json["relationship"],
+        noOfChildren: json["no_of_children"],
+        image: json["image"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "email": email,
+        "phone": phone,
+        "password": password,
+        "address": address,
+        "relationship": relationship,
+        "no_of_children": noOfChildren,
+        "image": image,
+      };
 }

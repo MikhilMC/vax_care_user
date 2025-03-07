@@ -204,10 +204,10 @@ class __$$loggedInImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loginDetails = freezed,
+    Object? loginDetails = null,
   }) {
     return _then(_$loggedInImpl(
-      freezed == loginDetails
+      null == loginDetails
           ? _value.loginDetails
           : loginDetails // ignore: cast_nullable_to_non_nullable
               as LoginDetails,
@@ -233,13 +233,12 @@ class _$loggedInImpl implements _loggedIn {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$loggedInImpl &&
-            const DeepCollectionEquality()
-                .equals(other.loginDetails, loginDetails));
+            (identical(other.loginDetails, loginDetails) ||
+                other.loginDetails == loginDetails));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(loginDetails));
+  int get hashCode => Object.hash(runtimeType, loginDetails);
 
   /// Create a copy of ParentLoginEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -655,10 +654,10 @@ class __$$successImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? response = freezed,
+    Object? response = null,
   }) {
     return _then(_$successImpl(
-      freezed == response
+      null == response
           ? _value.response
           : response // ignore: cast_nullable_to_non_nullable
               as LoginResponseModel,
@@ -684,12 +683,12 @@ class _$successImpl implements _success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$successImpl &&
-            const DeepCollectionEquality().equals(other.response, response));
+            (identical(other.response, response) ||
+                other.response == response));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(response));
+  int get hashCode => Object.hash(runtimeType, response);
 
   /// Create a copy of ParentLoginState
   /// with the given fields replaced by the non-null parameter values.

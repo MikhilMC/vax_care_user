@@ -88,12 +88,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             loading: () {},
             success: (response) async {
               if (response.status == "success") {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      "Parent Registration Successfull",
-                    ),
-                  ),
+                AppHelpers.showCustomSnackBar(
+                  context,
+                  "Parent Registration Successfull",
                 );
 
                 Navigator.pushReplacement(
@@ -101,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   MaterialPageRoute(
                     builder: (_) => AddChildScreen(
                       isLoggedIn: false,
-                      parentId: response.data!.id!,
+                      parentId: response.data.id,
                     ),
                   ),
                 );

@@ -63,29 +63,24 @@ class _LoginScreenState extends State<LoginScreen> {
             loading: () {},
             success: (response) {
               if (response.status == "success") {
-                if ((response.data?.noOfChildren ?? 0) == 0) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content:
-                          Text('You need to add atleast one of your children'),
-                    ),
+                if (response.data.noOfChildren == 0) {
+                  AppHelpers.showCustomSnackBar(
+                    context,
+                    "You need to add atleast one of your children",
                   );
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => AddChildScreen(
                         isLoggedIn: true,
-                        parentId: response.data!.id!,
+                        parentId: response.data.id,
                       ),
                     ),
                   );
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Login successfully',
-                      ),
-                    ),
+                  AppHelpers.showCustomSnackBar(
+                    context,
+                    "Loggedin successfully",
                   );
                   Navigator.pushReplacement(
                     context,

@@ -2,31 +2,57 @@
 //
 //     final userDataModel = userDataModelFromJson(jsonString);
 
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:convert';
-
-part 'user_data_model.freezed.dart';
-part 'user_data_model.g.dart';
 
 UserDataModel userDataModelFromJson(String str) =>
     UserDataModel.fromJson(json.decode(str));
 
 String userDataModelToJson(UserDataModel data) => json.encode(data.toJson());
 
-@freezed
-class UserDataModel with _$UserDataModel {
-  const factory UserDataModel({
-    int? id,
-    String? image,
-    String? name,
-    String? email,
-    String? phone,
-    String? password,
-    String? address,
-    String? relationship,
-    int? noOfChildren,
-  }) = _UserDataModel;
+class UserDataModel {
+  int id;
+  String image;
+  String name;
+  String email;
+  String phone;
+  String password;
+  String address;
+  String relationship;
+  int noOfChildren;
 
-  factory UserDataModel.fromJson(Map<String, dynamic> json) =>
-      _$UserDataModelFromJson(json);
+  UserDataModel({
+    required this.id,
+    required this.image,
+    required this.name,
+    required this.email,
+    required this.phone,
+    required this.password,
+    required this.address,
+    required this.relationship,
+    required this.noOfChildren,
+  });
+
+  factory UserDataModel.fromJson(Map<String, dynamic> json) => UserDataModel(
+        id: json["id"],
+        image: json["image"],
+        name: json["name"],
+        email: json["email"],
+        phone: json["phone"],
+        password: json["password"],
+        address: json["address"],
+        relationship: json["relationship"],
+        noOfChildren: json["no_of_children"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "image": image,
+        "name": name,
+        "email": email,
+        "phone": phone,
+        "password": password,
+        "address": address,
+        "relationship": relationship,
+        "no_of_children": noOfChildren,
+      };
 }

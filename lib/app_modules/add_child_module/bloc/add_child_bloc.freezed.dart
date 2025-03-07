@@ -638,8 +638,6 @@ abstract class _$$successImplCopyWith<$Res> {
       __$$successImplCopyWithImpl<$Res>;
   @useResult
   $Res call({AddChildResponseModel response});
-
-  $AddChildResponseModelCopyWith<$Res> get response;
 }
 
 /// @nodoc
@@ -663,16 +661,6 @@ class __$$successImplCopyWithImpl<$Res>
           : response // ignore: cast_nullable_to_non_nullable
               as AddChildResponseModel,
     ));
-  }
-
-  /// Create a copy of AddChildState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddChildResponseModelCopyWith<$Res> get response {
-    return $AddChildResponseModelCopyWith<$Res>(_value.response, (value) {
-      return _then(_value.copyWith(response: value));
-    });
   }
 }
 
