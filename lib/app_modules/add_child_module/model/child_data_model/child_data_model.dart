@@ -13,7 +13,7 @@ class ChildDataModel {
   int id;
   String name;
   String gender;
-  int height;
+  double height;
   double weight;
   DateTime birthdate;
   String photo;
@@ -38,7 +38,7 @@ class ChildDataModel {
         id: json["id"],
         name: json["name"],
         gender: json["gender"],
-        height: json["height"],
+        height: json["height"]?.toDouble(),
         weight: json["weight"]?.toDouble(),
         birthdate: DateTime.parse(json["birthdate"]),
         photo: json["photo"],

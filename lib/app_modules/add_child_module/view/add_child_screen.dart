@@ -96,42 +96,50 @@ class _AddChildScreenState extends State<AddChildScreen> {
 
   void _addChild() {
     FocusScope.of(context).unfocus();
-    if (_formKey.currentState!.validate()) {
-      if (_selectedBloodGroup != null) {
-        if (_selectedBirthDate != null) {
-          ChildDetails childDetails = ChildDetails(
-            name: _childNameController.text.trim(),
-            gender: _selectedGender!,
-            height: double.parse(_heightController.text.trim()),
-            weight: double.parse(_weightController.text.trim()),
-            medicalConditions: _havingSpecificHealthCondition
-                ? _medicalConditionController.text.trim()
-                : null,
-            dateOfBirth: _selectedBirthDate!,
-            bloodGroup: _selectedBloodGroup!,
-            parentId: widget.parentId,
-            image: _imageFile!,
-          );
+    if (_havingSpecificHealthCondition &&
+        _medicalConditionController.text.isNotEmpty) {
+      if (_formKey.currentState!.validate()) {
+        if (_selectedBloodGroup != null) {
+          if (_selectedBirthDate != null) {
+            ChildDetails childDetails = ChildDetails(
+              name: _childNameController.text.trim(),
+              gender: _selectedGender!,
+              height: double.parse(_heightController.text.trim()),
+              weight: double.parse(_weightController.text.trim()),
+              medicalConditions: _havingSpecificHealthCondition
+                  ? _medicalConditionController.text.trim()
+                  : null,
+              dateOfBirth: _selectedBirthDate!,
+              bloodGroup: _selectedBloodGroup!,
+              parentId: widget.parentId,
+              image: _imageFile!,
+            );
 
-          final addChildBloc = BlocProvider.of<AddChildBloc>(context);
+            final addChildBloc = BlocProvider.of<AddChildBloc>(context);
 
-          addChildBloc.add(AddChildEvent.childAdded(childDetails));
+            addChildBloc.add(AddChildEvent.childAdded(childDetails));
+          } else {
+            AppHelpers.showErrorDialogue(
+              context,
+              "Please select date of birth",
+            );
+          }
         } else {
           AppHelpers.showErrorDialogue(
             context,
-            "Please select date of birth",
+            "Please select blood group",
           );
         }
       } else {
         AppHelpers.showErrorDialogue(
           context,
-          "Please select blood group",
+          "Please add data in all text fields.",
         );
       }
     } else {
       AppHelpers.showErrorDialogue(
         context,
-        "Please add data in all text fields.",
+        "If your child have any specific medical condition, please specify.",
       );
     }
   }
