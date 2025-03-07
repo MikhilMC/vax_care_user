@@ -7,4 +7,5 @@ class AppUrls {
   static const String parentLoginUrl = "$userUrl/login/";
 
   static const String getChildrenUrl = "$userUrl/child_list/";
+  static const String getChildDetailsUrl = "$userUrl/view_single_child/";
 }

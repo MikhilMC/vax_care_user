@@ -38,11 +38,14 @@ class ChildCard extends StatelessWidget {
                 bottomLeft: Radius.circular(0),
                 bottomRight: Radius.circular(0),
               ),
-              child: Image.network(
-                child.photoUrl,
-                height: screenSize.height * 0.175,
-                width: screenSize.width * 0.45,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: "child-${child.childId}",
+                child: Image.network(
+                  child.photoUrl,
+                  height: screenSize.height * 0.175,
+                  width: screenSize.width * 0.45,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             SizedBox(height: 8),
