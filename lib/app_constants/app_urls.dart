@@ -5,4 +5,6 @@ class AppUrls {
   static const String parentRegistrationUrl = "$userUrl/parent_registration/";
   static const String childRegistrationUrl = "$userUrl/child_registration/";
   static const String parentLoginUrl = "$userUrl/login/";
+
+  static const String getChildrenUrl = "$userUrl/child_list/";
 }

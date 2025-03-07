@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vax_care_user/app_modules/child_details_module/view/child_details_screen.dart';
-import 'package:vax_care_user/app_modules/home_page_module/model/child.dart';
+import 'package:vax_care_user/app_models/child.dart';
 import 'package:vax_care_user/app_modules/home_page_module/widget/info_chip.dart';
 
 class ChildCard extends StatelessWidget {

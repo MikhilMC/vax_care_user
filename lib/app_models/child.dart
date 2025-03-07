@@ -23,4 +23,11 @@ class Child {
     required this.gender,
     this.healthConditions,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || (other is Child && childId == other.childId);
+
+  @override
+  int get hashCode => childId.hashCode;
 }

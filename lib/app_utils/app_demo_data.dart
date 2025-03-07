@@ -1,5 +1,5 @@
 import 'package:faker/faker.dart';
-import 'package:vax_care_user/app_modules/home_page_module/model/child.dart';
+import 'package:vax_care_user/app_models/child.dart';
 
 List<Child> generateFakeChildren() {
   final faker = Faker();

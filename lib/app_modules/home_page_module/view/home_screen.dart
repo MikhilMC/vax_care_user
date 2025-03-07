@@ -6,7 +6,6 @@ import 'package:vax_care_user/app_modules/home_page_module/widget/parent_profile
 import 'package:vax_care_user/app_modules/home_page_module/widget/vaccine_booking_widget.dart';
 import 'package:vax_care_user/app_modules/login_module/view/login_screen.dart';
 import 'package:vax_care_user/app_modules/vaccine_history_module/view/vaccine_history_screen.dart';
-import 'package:vax_care_user/app_utils/app_demo_data.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _appBodies = [
       Center(
-        child: ChildrenGrid(children: generateFakeChildren()),
+        child: ChildrenGrid(),
       ),
       Center(
         child: VaccineBookingWidget(),
