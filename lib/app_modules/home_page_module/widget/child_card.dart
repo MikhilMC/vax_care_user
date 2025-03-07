@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:vax_care_user/app_constants/app_colors.dart';
 import 'package:vax_care_user/app_modules/child_details_module/view/child_details_screen.dart';
 import 'package:vax_care_user/app_models/child.dart';
 import 'package:vax_care_user/app_modules/home_page_module/widget/info_chip.dart';
@@ -40,11 +42,19 @@ class ChildCard extends StatelessWidget {
               ),
               child: Hero(
                 tag: "child-${child.childId}",
-                child: Image.network(
-                  child.photoUrl,
+                child: CachedNetworkImage(
+                  imageUrl: child.photoUrl,
                   height: screenSize.height * 0.175,
                   width: screenSize.width * 0.45,
                   fit: BoxFit.cover,
+                  progressIndicatorBuilder: (context, url, progress) =>
+                      CircularProgressIndicator(
+                    value: progress.progress,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      AppColors.primaryColor,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),

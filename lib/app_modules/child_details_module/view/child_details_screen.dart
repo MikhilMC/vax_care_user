@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -65,7 +66,7 @@ class _ChildDetailsScreenState extends State<ChildDetailsScreen> {
                   tag: "child-${childDetails.id}",
                   child: CircleAvatar(
                     radius: 60,
-                    backgroundImage: NetworkImage(
+                    backgroundImage: CachedNetworkImageProvider(
                       "${AppUrls.baseUrl}/${childDetails.photo}",
                     ),
                   ),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vax_care_user/app_constants/app_colors.dart';
@@ -53,9 +54,9 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                     children: [
                       CircleAvatar(
                         radius: 60,
-                        backgroundImage: NetworkImage(
+                        backgroundImage: CachedNetworkImageProvider(
                           '${AppUrls.baseUrl}/${profileDetails.image}',
-                        ), // Change this
+                        ),
                       ),
                       Positioned(
                         bottom: 0,
