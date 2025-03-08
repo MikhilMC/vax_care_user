@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.vax_care_user"
-    compileSdk = 34
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

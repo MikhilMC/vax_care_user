@@ -9,4 +9,6 @@ class AppUrls {
   static const String getChildrenUrl = "$userUrl/child_list/";
   static const String getChildDetailsUrl = "$userUrl/view_single_child/";
   static const String getProfileDetailsUrl = "$userUrl/view_profile/";
+  static const String getHealthcareProviderListUrl =
+      "$userUrl/health_provider_list/";
 }
