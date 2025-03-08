@@ -103,25 +103,28 @@ class _VaccineBookingWidgetState extends State<VaccineBookingWidget> {
   }
 
   void _findHospitals() {
-    if (_selectedChild == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select a child'),
-        ),
-      );
-      return;
-    }
     if (_latitudeController.text.isNotEmpty &&
         _longitudeController.text.isNotEmpty) {
-      context
-          .read<HealthcareProviderListBloc>()
-          .add(HealthcareProviderListEvent.healthcareProviderListFetched(
-            double.parse(_latitudeController.text.trim()),
-            double.parse(_longitudeController.text.trim()),
-          ));
-      setState(() {
-        showHospitals = true;
-      });
+      if (_selectedChild != null) {
+        context
+            .read<HealthcareProviderListBloc>()
+            .add(HealthcareProviderListEvent.healthcareProviderListFetched(
+              double.parse(_latitudeController.text.trim()),
+              double.parse(_longitudeController.text.trim()),
+              _selectedChild!.childId,
+            ));
+        setState(() {
+          showHospitals = true;
+        });
+      } else {
+        AppHelpers.showErrorDialogue(
+          context,
+          "Please select a child",
+        );
+        setState(() {
+          showHospitals = false;
+        });
+      }
     } else {
       AppHelpers.showErrorDialogue(
         context,

@@ -6,5 +6,6 @@ class HealthcareProviderListEvent with _$HealthcareProviderListEvent {
   const factory HealthcareProviderListEvent.healthcareProviderListFetched(
     double latitude,
     double longitude,
+    int childId,
   ) = _healthcareProviderListFetched;
 }

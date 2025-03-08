@@ -16,6 +16,7 @@ class HealthcareProviderListBloc
         final healthcareProviders = await getHealthcareProviderList(
           latitude: event.latitude,
           longitude: event.longitude,
+          childId: event.childId,
         );
         if (healthcareProviders.isNotEmpty) {
           emit(HealthcareProviderListState.success(healthcareProviders));

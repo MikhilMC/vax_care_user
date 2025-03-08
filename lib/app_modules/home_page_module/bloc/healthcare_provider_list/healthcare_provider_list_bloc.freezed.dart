@@ -19,21 +19,21 @@ mixin _$HealthcareProviderListEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(double latitude, double longitude)
+    required TResult Function(double latitude, double longitude, int childId)
         healthcareProviderListFetched,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(double latitude, double longitude)?
+    TResult? Function(double latitude, double longitude, int childId)?
         healthcareProviderListFetched,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(double latitude, double longitude)?
+    TResult Function(double latitude, double longitude, int childId)?
         healthcareProviderListFetched,
     required TResult orElse(),
   }) =>
@@ -128,7 +128,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(double latitude, double longitude)
+    required TResult Function(double latitude, double longitude, int childId)
         healthcareProviderListFetched,
   }) {
     return started();
@@ -138,7 +138,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(double latitude, double longitude)?
+    TResult? Function(double latitude, double longitude, int childId)?
         healthcareProviderListFetched,
   }) {
     return started?.call();
@@ -148,7 +148,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(double latitude, double longitude)?
+    TResult Function(double latitude, double longitude, int childId)?
         healthcareProviderListFetched,
     required TResult orElse(),
   }) {
@@ -204,7 +204,7 @@ abstract class _$$healthcareProviderListFetchedImplCopyWith<$Res> {
           $Res Function(_$healthcareProviderListFetchedImpl) then) =
       __$$healthcareProviderListFetchedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({double latitude, double longitude});
+  $Res call({double latitude, double longitude, int childId});
 }
 
 /// @nodoc
@@ -224,6 +224,7 @@ class __$$healthcareProviderListFetchedImplCopyWithImpl<$Res>
   $Res call({
     Object? latitude = null,
     Object? longitude = null,
+    Object? childId = null,
   }) {
     return _then(_$healthcareProviderListFetchedImpl(
       null == latitude
@@ -234,6 +235,10 @@ class __$$healthcareProviderListFetchedImplCopyWithImpl<$Res>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
+      null == childId
+          ? _value.childId
+          : childId // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -242,16 +247,19 @@ class __$$healthcareProviderListFetchedImplCopyWithImpl<$Res>
 
 class _$healthcareProviderListFetchedImpl
     implements _healthcareProviderListFetched {
-  const _$healthcareProviderListFetchedImpl(this.latitude, this.longitude);
+  const _$healthcareProviderListFetchedImpl(
+      this.latitude, this.longitude, this.childId);
 
   @override
   final double latitude;
   @override
   final double longitude;
+  @override
+  final int childId;
 
   @override
   String toString() {
-    return 'HealthcareProviderListEvent.healthcareProviderListFetched(latitude: $latitude, longitude: $longitude)';
+    return 'HealthcareProviderListEvent.healthcareProviderListFetched(latitude: $latitude, longitude: $longitude, childId: $childId)';
   }
 
   @override
@@ -262,11 +270,12 @@ class _$healthcareProviderListFetchedImpl
             (identical(other.latitude, latitude) ||
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
-                other.longitude == longitude));
+                other.longitude == longitude) &&
+            (identical(other.childId, childId) || other.childId == childId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, latitude, longitude);
+  int get hashCode => Object.hash(runtimeType, latitude, longitude, childId);
 
   /// Create a copy of HealthcareProviderListEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -282,32 +291,32 @@ class _$healthcareProviderListFetchedImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(double latitude, double longitude)
+    required TResult Function(double latitude, double longitude, int childId)
         healthcareProviderListFetched,
   }) {
-    return healthcareProviderListFetched(latitude, longitude);
+    return healthcareProviderListFetched(latitude, longitude, childId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(double latitude, double longitude)?
+    TResult? Function(double latitude, double longitude, int childId)?
         healthcareProviderListFetched,
   }) {
-    return healthcareProviderListFetched?.call(latitude, longitude);
+    return healthcareProviderListFetched?.call(latitude, longitude, childId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(double latitude, double longitude)?
+    TResult Function(double latitude, double longitude, int childId)?
         healthcareProviderListFetched,
     required TResult orElse(),
   }) {
     if (healthcareProviderListFetched != null) {
-      return healthcareProviderListFetched(latitude, longitude);
+      return healthcareProviderListFetched(latitude, longitude, childId);
     }
     return orElse();
   }
@@ -350,11 +359,12 @@ class _$healthcareProviderListFetchedImpl
 abstract class _healthcareProviderListFetched
     implements HealthcareProviderListEvent {
   const factory _healthcareProviderListFetched(
-          final double latitude, final double longitude) =
+          final double latitude, final double longitude, final int childId) =
       _$healthcareProviderListFetchedImpl;
 
   double get latitude;
   double get longitude;
+  int get childId;
 
   /// Create a copy of HealthcareProviderListEvent
   /// with the given fields replaced by the non-null parameter values.

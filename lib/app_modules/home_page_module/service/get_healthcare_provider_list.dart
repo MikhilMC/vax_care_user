@@ -9,11 +9,13 @@ import 'package:vax_care_user/app_modules/home_page_module/model/healthcare_prov
 Future<List<HealthcareProvider>> getHealthcareProviderList({
   required double latitude,
   required double longitude,
+  required int childId,
 }) async {
   try {
     Map<String, dynamic> params = {
       "latitude": latitude.toString(),
       "longitude": longitude.toString(),
+      "child_id": childId.toInt(),
     };
     // Construct the URL with query parameters
     final url = Uri.parse(AppUrls.getHealthcareProviderListUrl).replace(
