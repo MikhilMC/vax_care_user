@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vax_care_user/app_constants/app_colors.dart';
+import 'package:vax_care_user/app_modules/book_vaccine_module/model/slot_model/slot_model.dart';
+import 'package:vax_care_user/app_modules/book_vaccine_module/widget/slots_grid.dart';
 import 'package:vax_care_user/app_modules/home_page_module/view/home_screen.dart';
 import 'package:vax_care_user/app_widgets/select_date_widget.dart';
 
@@ -20,17 +22,12 @@ class BookVaccineScreen extends StatefulWidget {
 
 class _BookVaccineScreenState extends State<BookVaccineScreen> {
   DateTime? _selectedDate;
-  String? _selectedTimeSlot;
+  SlotModel? _selectedTimeSlot;
 
-  List<String> generateTimeSlots() {
-    List<String> slots = [];
-    for (int hour = 8; hour < 16; hour++) {
-      slots.add(
-          '${hour.toString().padLeft(2, '0')}:00 - ${hour.toString().padLeft(2, '0')}:30');
-      slots.add(
-          '${hour.toString().padLeft(2, '0')}:30 - ${(hour + 1).toString().padLeft(2, '0')}:00');
-    }
-    return slots;
+  @override
+  void initState() {
+    super.initState();
+    // context.read();
   }
 
   void _bookVaccine() {
@@ -59,8 +56,6 @@ class _BookVaccineScreenState extends State<BookVaccineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> timeSlots = generateTimeSlots();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Book Vaccine'),
@@ -98,47 +93,14 @@ class _BookVaccineScreenState extends State<BookVaccineScreen> {
               ),
             ),
             const SizedBox(height: 8),
-            Expanded(
-              child: GridView.builder(
-                itemCount: timeSlots.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, // Two columns
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 2, // Adjust height
-                ),
-                itemBuilder: (context, index) {
-                  String slot = timeSlots[index];
-                  bool isSelected = _selectedTimeSlot == slot;
-
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedTimeSlot = slot;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? AppColors.primaryColor
-                            : AppColors.tertiaryColor,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppColors.primaryColor),
-                      ),
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        slot,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: isSelected ? Colors.white : Colors.black,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+            SlotsGrid(
+              healthProviderId: widget.healthProviderId,
+              selectedSlot: _selectedTimeSlot,
+              onSelectingSlot: (p0) {
+                setState(() {
+                  _selectedTimeSlot = p0;
+                });
+              },
             ),
             const SizedBox(height: 16),
             SizedBox(

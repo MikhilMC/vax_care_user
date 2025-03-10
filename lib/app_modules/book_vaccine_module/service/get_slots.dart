@@ -4,21 +4,18 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import 'package:vax_care_user/app_constants/app_urls.dart';
-import 'package:vax_care_user/app_modules/home_page_module/model/healthcare_provider.dart';
+import 'package:vax_care_user/app_modules/book_vaccine_module/model/slot_model/slot_model.dart';
 
-Future<List<HealthcareProvider>> getHealthcareProviderList({
-  required double latitude,
-  required double longitude,
-  required int childId,
+Future<List<SlotModel>> getSlots({
+  required int healthcareProviderId,
 }) async {
   try {
     Map<String, dynamic> params = {
-      "latitude": latitude.toString(),
-      "longitude": longitude.toString(),
-      "child_id": childId.toString(),
+      "id": healthcareProviderId.toString(),
     };
+
     // Construct the URL with query parameters
-    final url = Uri.parse(AppUrls.getHealthcareProviderListUrl).replace(
+    final url = Uri.parse(AppUrls.getSlotsUrl).replace(
       queryParameters: params,
     );
 
@@ -31,8 +28,8 @@ Future<List<HealthcareProvider>> getHealthcareProviderList({
 
     if (resp.statusCode == 200) {
       final List<dynamic> decoded = jsonDecode(resp.body);
-      final response =
-          decoded.map((item) => HealthcareProvider.fromJson(item)).toList();
+      final response = decoded.map((item) => SlotModel.fromJson(item)).toList();
+
       return response;
     } else {
       final Map<String, dynamic> errorResponse = jsonDecode(resp.body);

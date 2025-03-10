@@ -29,7 +29,10 @@ Future<ProfileModel> getProfileDetails() async {
       final response = ProfileModel.fromJson(decoded);
       return response;
     } else {
-      throw Exception('Failed to load response');
+      final Map<String, dynamic> errorResponse = jsonDecode(resp.body);
+      throw Exception(
+        '${errorResponse['message'] ?? 'Unknown error'}',
+      );
     }
   } on SocketException {
     throw Exception('Server error');

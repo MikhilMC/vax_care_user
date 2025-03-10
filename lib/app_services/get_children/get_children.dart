@@ -32,7 +32,10 @@ Future<List<ChildListModel>> getChildren() async {
 
       return response;
     } else {
-      throw Exception('Failed to load response');
+      final Map<String, dynamic> errorResponse = jsonDecode(resp.body);
+      throw Exception(
+        '${errorResponse['message'] ?? 'Unknown error'}',
+      );
     }
   } on SocketException {
     throw Exception('Server error');
