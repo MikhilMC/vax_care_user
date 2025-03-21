@@ -6,6 +6,7 @@ import 'package:vax_care_user/app_constants/app_colors.dart';
 import 'package:vax_care_user/app_constants/app_urls.dart';
 import 'package:vax_care_user/app_modules/child_details_module/bloc/child_details_bloc.dart';
 import 'package:vax_care_user/app_modules/child_details_module/utils/helper.dart';
+import 'package:vax_care_user/app_modules/child_details_module/widget/bmi_card.dart';
 import 'package:vax_care_user/app_modules/child_details_module/widget/detail_card.dart';
 import 'package:vax_care_user/app_widgets/custom_error_widget.dart';
 
@@ -111,6 +112,15 @@ class _ChildDetailsScreenState extends State<ChildDetailsScreen> {
                     title: 'Medical Conditions',
                     value: childDetails.medicalConditions!,
                   ),
+
+                const SizedBox(height: 20),
+
+                // BMI Card
+                BMICard(
+                  height: childDetails.height,
+                  weight: childDetails.weight,
+                  birthdate: childDetails.birthdate,
+                ),
 
                 const SizedBox(height: 20),
 
