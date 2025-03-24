@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vax_care_user/app_constants/app_colors.dart';
 import 'package:vax_care_user/app_modules/add_child_module/view/add_child_screen.dart';
@@ -7,11 +8,13 @@ import 'package:vax_care_user/app_modules/login_module/bloc/parent_login_bloc.da
 import 'package:vax_care_user/app_modules/login_module/class/login_details.dart';
 import 'package:vax_care_user/app_modules/register_module/view/register_screen.dart';
 import 'package:vax_care_user/app_utils/app_helpers.dart';
+import 'package:vax_care_user/app_utils/app_localstorage.dart';
 import 'package:vax_care_user/app_widgets/custom_button.dart';
 import 'package:vax_care_user/app_widgets/form_logo.dart';
 import 'package:vax_care_user/app_widgets/normal_text_field.dart';
 import 'package:vax_care_user/app_widgets/overlay_loader_widget.dart';
 import 'package:vax_care_user/app_widgets/password_text_field.dart';
+import 'package:vax_care_user/main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -61,39 +64,49 @@ class _LoginScreenState extends State<LoginScreen> {
         listener: (context, state) {
           state.whenOrNull(
             loading: () {},
-            success: (response) {
+            success: (response) async {
               if (response.status == "success") {
                 if (response.data.noOfChildren == 0) {
-                  AppHelpers.showCustomSnackBar(
-                    context,
-                    "You need to add atleast one of your children",
-                  );
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddChildScreen(
-                        isLoggedIn: true,
-                        parentId: response.data.id,
+                  SchedulerBinding.instance.addPostFrameCallback((_) {
+                    MyApp.navigatorKey.currentState?.pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => AddChildScreen(
+                          isLoggedIn: false,
+                          parentId: response.data.id,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+
+                    AppHelpers.showCustomSnackBar(
+                      context,
+                      "You need to add atleast one of your children",
+                    );
+                  });
                 } else {
-                  AppHelpers.showCustomSnackBar(
-                    context,
-                    "Loggedin successfully",
+                  await AppLocalstorage.userLogin(
+                    username: response.data.name,
+                    userId: response.data.id,
                   );
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
-                    ),
-                  );
+                  SchedulerBinding.instance.addPostFrameCallback((_) {
+                    MyApp.navigatorKey.currentState?.pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => HomeScreen(),
+                      ),
+                    );
+
+                    AppHelpers.showCustomSnackBar(
+                      context,
+                      "Loggedin successfully",
+                    );
+                  });
                 }
               } else {
-                AppHelpers.showErrorDialogue(
-                  context,
-                  "Login Failed",
-                );
+                SchedulerBinding.instance.addPostFrameCallback((_) {
+                  AppHelpers.showErrorDialogue(
+                    context,
+                    "Login Failed",
+                  );
+                });
               }
             },
             failure: (errorMessage) => AppHelpers.showErrorDialogue(

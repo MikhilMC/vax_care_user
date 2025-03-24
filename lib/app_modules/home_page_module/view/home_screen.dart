@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vax_care_user/app_constants/app_colors.dart';
 import 'package:vax_care_user/app_modules/add_child_module/view/add_child_screen.dart';
+import 'package:vax_care_user/app_modules/home_page_module/bloc/retreive_user_name_bloc/retreive_user_name_bloc.dart';
+import 'package:vax_care_user/app_modules/home_page_module/bloc/retreive_userid_bloc/retreive_userid_bloc.dart';
 import 'package:vax_care_user/app_modules/home_page_module/widget/children_grid.dart';
 import 'package:vax_care_user/app_modules/home_page_module/widget/parent_profile_widget.dart';
 import 'package:vax_care_user/app_modules/home_page_module/widget/vaccine_booking_widget.dart';
@@ -35,32 +38,61 @@ class _HomeScreenState extends State<HomeScreen> {
       )
     ];
     super.initState();
+    context
+        .read<RetreiveUserNameBloc>()
+        .add(RetreiveUserNameEvent.userNameFetched());
+
+    context.read<RetreiveUseridBloc>().add(RetreiveUseridEvent.useridFetched());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hello, John"),
+        title: BlocBuilder<RetreiveUserNameBloc, RetreiveUserNameState>(
+          builder: (context, state) {
+            if (state is UserNameError) {
+              return Text("Error: ${state.errorMessage}");
+            }
+
+            if (state is! UserNameSuccess) {
+              return Text("Loading...");
+            }
+
+            return Text("Hello, ${state.name}");
+          },
+        ),
         titleTextStyle: const TextStyle(
           color: Colors.black,
           fontSize: 35,
           fontWeight: FontWeight.bold,
         ),
         actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddChildScreen(
-                    isLoggedIn: true,
-                    parentId: 13,
-                  ),
-                ),
+          BlocBuilder<RetreiveUseridBloc, RetreiveUseridState>(
+            builder: (context, state) {
+              if (state is UserIDFailed) {
+                return Text("Error: ${state.errorMessage}");
+              }
+
+              if (state is! UserIDSuccess) {
+                return Text("Loading...");
+              }
+
+              return TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddChildScreen(
+                        isLoggedIn: true,
+                        parentId: state.userId,
+                      ),
+                    ),
+                  );
+                },
+                child: Text("Add Child"),
               );
             },
-            child: Text("Add Child"),
           ),
         ],
       ),

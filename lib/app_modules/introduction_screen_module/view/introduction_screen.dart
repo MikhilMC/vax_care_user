@@ -3,9 +3,26 @@ import 'package:vax_care_user/app_constants/app_colors.dart';
 import 'package:vax_care_user/app_modules/introduction_screen_module/models/onboarding_page_model.dart';
 import 'package:vax_care_user/app_modules/introduction_screen_module/widgets/onboarding_page_presenter.dart';
 import 'package:vax_care_user/app_modules/login_module/view/login_screen.dart';
+import 'package:vax_care_user/app_utils/app_localstorage.dart';
 
-class IntroductionScreen extends StatelessWidget {
+class IntroductionScreen extends StatefulWidget {
   const IntroductionScreen({super.key});
+
+  @override
+  State<IntroductionScreen> createState() => _IntroductionScreenState();
+}
+
+class _IntroductionScreenState extends State<IntroductionScreen> {
+  Future<void> _navigate() async {
+    await AppLocalstorage.disableIntroScreen();
+    if (mounted) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => LoginScreen(),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +66,8 @@ class IntroductionScreen extends StatelessWidget {
             isLightBackground: true,
           ),
         ],
-        onSkip: () => Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => LoginScreen(),
-          ),
-        ),
-        onFinish: () => Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => LoginScreen(),
-          ),
-        ),
+        onSkip: _navigate,
+        onFinish: _navigate,
       ),
     );
   }
