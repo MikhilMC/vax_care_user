@@ -14,4 +14,7 @@ class AppUrls {
       "$userAppUrl/health_provider_list/";
   static const String getSlotsUrl = "$userAppUrl/timeslot/";
   static const String bookVaccineUrl = "$userAppUrl/bookings/";
+
+  static const String getChildVaccinationHistoryUrl =
+      "$userAppUrl/vaccination_history/";
 }

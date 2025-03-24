@@ -27,12 +27,6 @@ class _VaccineBookingWidgetState extends State<VaccineBookingWidget> {
   Child? _selectedChild;
   bool showHospitals = false;
 
-  final List<Map<String, String>> hospitals = [
-    {'name': 'City Hospital', 'location': 'Downtown'},
-    {'name': 'GreenCare Clinic', 'location': 'Suburbs'},
-    {'name': 'HealthPlus Center', 'location': 'Uptown'},
-  ];
-
   @override
   void dispose() {
     super.dispose();

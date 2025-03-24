@@ -11,6 +11,7 @@ import 'package:vax_care_user/app_modules/home_page_module/bloc/parent_profile_b
 import 'package:vax_care_user/app_modules/introduction_screen_module/view/introduction_screen.dart';
 import 'package:vax_care_user/app_modules/login_module/bloc/parent_login_bloc.dart';
 import 'package:vax_care_user/app_modules/register_module/bloc/parent_register_bloc.dart';
+import 'package:vax_care_user/app_modules/vaccine_history_module/bloc/child_vaccination_history_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -49,6 +50,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => BookVaccineBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ChildVaccinationHistoryBloc(),
         ),
       ],
       child: MaterialApp(

@@ -4,6 +4,9 @@ import 'package:vax_care_user/app_blocs/bloc/children_bloc.dart';
 import 'package:vax_care_user/app_constants/app_colors.dart';
 import 'package:vax_care_user/app_constants/app_urls.dart';
 import 'package:vax_care_user/app_models/child.dart';
+import 'package:vax_care_user/app_modules/vaccine_history_module/bloc/child_vaccination_history_bloc.dart';
+import 'package:vax_care_user/app_modules/vaccine_history_module/widget/child_vaccine_history_card.dart';
+import 'package:vax_care_user/app_utils/app_helpers.dart';
 import 'package:vax_care_user/app_widgets/children_dropdown.dart';
 import 'package:vax_care_user/app_widgets/custom_error_widget.dart';
 import 'package:vax_care_user/app_widgets/empty_list.dart';
@@ -17,35 +20,35 @@ class VaccineHistoryScreen extends StatefulWidget {
 
 class _VaccineHistoryScreenState extends State<VaccineHistoryScreen> {
   Child? _selectedChild;
-  String? selectedChild;
-  bool showHistory = false;
-
-  final List<String> children = ['John', 'Emma', 'Ava', 'Liam'];
-
-  // Sample vaccine history based on UNICEF schedule
-  final Map<String, List<Map<String, String>>> vaccineHistory = {
-    'John': [
-      {'vaccine': 'BCG', 'age': 'At birth', 'status': 'Completed'},
-      {'vaccine': 'Hepatitis B', 'age': 'At birth', 'status': 'Completed'},
-      {'vaccine': 'DTP', 'age': '6 weeks', 'status': 'Pending'},
-    ],
-    'Emma': [
-      {'vaccine': 'Polio', 'age': '6 weeks', 'status': 'Completed'},
-      {'vaccine': 'DTP', 'age': '10 weeks', 'status': 'Pending'},
-    ],
-    'Ava': [
-      {'vaccine': 'Measles', 'age': '9 months', 'status': 'Completed'},
-    ],
-    'Liam': [
-      {'vaccine': 'Rotavirus', 'age': '6 weeks', 'status': 'Completed'},
-    ],
-  };
+  bool _showHistory = false;
 
   @override
   void initState() {
     super.initState();
     context.read<ChildrenBloc>().add(ChildrenEvent.childrenFetched());
     _selectedChild = null;
+  }
+
+  void _getChildVaccineHistory() {
+    if (_selectedChild != null) {
+      setState(() {
+        _showHistory = true;
+      });
+
+      context
+          .read<ChildVaccinationHistoryBloc>()
+          .add(ChildVaccinationHistoryEvent.childVaccinationHistoryFetched(
+            _selectedChild!.childId,
+          ));
+    } else {
+      AppHelpers.showErrorDialogue(
+        context,
+        "Please select a child",
+      );
+      setState(() {
+        _showHistory = false;
+      });
+    }
   }
 
   @override
@@ -98,77 +101,84 @@ class _VaccineHistoryScreenState extends State<VaccineHistoryScreen> {
           }
           return Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Select Child:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                ChildrenDropdown(
-                  selectedChild: _selectedChild ??
-                      (children.isNotEmpty ? children.first : null),
-                  children: children,
-                  onSelectingChildren: (child) {
-                    setState(() {
-                      _selectedChild = child;
-                    });
-                  },
-                ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (selectedChild != null) {
-                        setState(() {
-                          showHistory = true;
-                        });
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Please select a child')),
-                        );
-                      }
-                    },
-                    child: const Text('Get History'),
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Display vaccine history only when a child is selected
-                if (showHistory && selectedChild != null) ...[
-                  const Text(
-                    'Vaccine History:',
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: const Text(
+                    'Select Child:',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 10),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: vaccineHistory[selectedChild]!.length,
-                      itemBuilder: (context, index) {
-                        var vaccine = vaccineHistory[selectedChild]![index];
-                        return Card(
-                          margin: const EdgeInsets.symmetric(vertical: 8),
-                          child: ListTile(
-                            leading:
-                                const Icon(Icons.vaccines, color: Colors.blue),
-                            title: Text(vaccine['vaccine']!),
-                            subtitle: Text('Age: ${vaccine['age']}'),
-                            trailing: Text(
-                              vaccine['status']!,
-                              style: TextStyle(
-                                color: vaccine['status'] == 'Completed'
-                                    ? Colors.green
-                                    : Colors.red,
-                                fontWeight: FontWeight.bold,
-                              ),
+                ),
+                SliverToBoxAdapter(child: const SizedBox(height: 8)),
+                SliverToBoxAdapter(
+                  child: ChildrenDropdown(
+                    selectedChild: _selectedChild ??
+                        (children.isNotEmpty ? children.first : null),
+                    children: children,
+                    onSelectingChildren: (child) {
+                      setState(() {
+                        _selectedChild = child;
+                        _showHistory = false;
+                      });
+                    },
+                  ),
+                ),
+                SliverToBoxAdapter(child: const SizedBox(height: 16)),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _getChildVaccineHistory,
+                      child: const Text('Get History'),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(child: const SizedBox(height: 16)),
+
+                // Display vaccine history only when a child is selected
+                if (_showHistory && _selectedChild != null) ...[
+                  SliverToBoxAdapter(
+                    child: Text(
+                      'Vaccine History: ${_selectedChild!.name}',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(child: const SizedBox(height: 10)),
+                  BlocBuilder<ChildVaccinationHistoryBloc,
+                      ChildVaccinationHistoryState>(
+                    builder: (context, state) {
+                      if (state is ChildVaccinationHistoryError) {
+                        return SliverToBoxAdapter(
+                          child: CustomErrorWidget(
+                            errorMessage: state.errorMessage,
+                          ),
+                        );
+                      }
+
+                      if (state is! ChildVaccinationHistorySuccess) {
+                        return SliverToBoxAdapter(
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryColor,
                             ),
                           ),
                         );
-                      },
-                    ),
+                      }
+
+                      final vaccinationHistory = state.vaccinationHistory;
+                      return SliverList.builder(
+                        itemCount: vaccinationHistory.ageGroups.length,
+                        itemBuilder: (context, index) {
+                          var ageGroup = vaccinationHistory.ageGroups[index];
+                          return ChildVaccineHistoryCard(
+                            ageGroup: ageGroup,
+                          );
+                        },
+                      );
+                    },
                   ),
                 ]
               ],
