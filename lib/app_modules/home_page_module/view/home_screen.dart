@@ -9,6 +9,7 @@ import 'package:vax_care_user/app_modules/home_page_module/widget/parent_profile
 import 'package:vax_care_user/app_modules/home_page_module/widget/vaccine_booking_widget.dart';
 import 'package:vax_care_user/app_modules/login_module/view/login_screen.dart';
 import 'package:vax_care_user/app_modules/vaccine_history_module/view/vaccine_history_screen.dart';
+import 'package:vax_care_user/app_utils/app_localstorage.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -43,6 +44,17 @@ class _HomeScreenState extends State<HomeScreen> {
         .add(RetreiveUserNameEvent.userNameFetched());
 
     context.read<RetreiveUseridBloc>().add(RetreiveUseridEvent.useridFetched());
+  }
+
+  Future<void> _logout() async {
+    await AppLocalstorage.userLogout();
+    if (mounted) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+        (route) => false,
+      );
+    }
   }
 
   @override
@@ -217,14 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 20,
                 ),
               ),
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
-                  ),
-                );
-              },
+              onTap: _logout,
             ),
           ],
         ),
