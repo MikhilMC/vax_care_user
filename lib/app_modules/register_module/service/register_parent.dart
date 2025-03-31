@@ -5,9 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:vax_care_user/app_constants/app_urls.dart';
 
 import 'package:vax_care_user/app_modules/register_module/class/parent_registration_details.dart';
-import 'package:vax_care_user/app_modules/register_module/model/register_response_model/register_response_model.dart';
+import 'package:vax_care_user/app_modules/register_module/model/parent_action_response_model/parent_action_response_model.dart';
 
-Future<RegisterResponseModel> registerParent({
+Future<ParentActionResponseModel> registerParent({
   required ParentRegistrationDetails parentRegistrationDetails,
 }) async {
   try {
@@ -42,8 +42,8 @@ Future<RegisterResponseModel> registerParent({
 
     if (resp.statusCode == 201) {
       final dynamic decoded = jsonDecode(responseBody);
-      final RegisterResponseModel response =
-          RegisterResponseModel.fromJson(decoded);
+      final ParentActionResponseModel response =
+          ParentActionResponseModel.fromJson(decoded);
       return response;
     } else {
       final Map<String, dynamic> errorResponse = jsonDecode(responseBody);

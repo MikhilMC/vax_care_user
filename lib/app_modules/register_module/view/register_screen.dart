@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:vax_care_user/app_constants/app_colors.dart';
 import 'package:vax_care_user/app_modules/add_child_module/view/add_child_screen.dart';
 import 'package:vax_care_user/app_modules/login_module/view/login_screen.dart';
-import 'package:vax_care_user/app_modules/register_module/bloc/parent_register_bloc.dart';
+import 'package:vax_care_user/app_modules/register_module/bloc/parent_register_bloc/parent_register_bloc.dart';
 import 'package:vax_care_user/app_modules/register_module/class/parent_registration_details.dart';
 import 'package:vax_care_user/app_modules/register_module/widget/relationship_dropdown.dart';
 import 'package:vax_care_user/app_utils/app_helpers.dart';
@@ -86,7 +86,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         listener: (context, state) {
           state.whenOrNull(
             loading: () {},
-            success: (response) async {
+            success: (response) {
               if (response.status == "success") {
                 AppHelpers.showCustomSnackBar(
                   context,

@@ -1,14 +1,21 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:vax_care_user/app_blocs/parent_profile_bloc/parent_profile_bloc.dart';
 import 'package:vax_care_user/app_constants/app_colors.dart';
 import 'package:vax_care_user/app_constants/app_urls.dart';
-import 'package:vax_care_user/app_modules/home_page_module/bloc/parent_profile_bloc/parent_profile_bloc.dart';
 import 'package:vax_care_user/app_modules/home_page_module/widget/profile_item.dart';
+import 'package:vax_care_user/app_modules/register_module/view/edit_parent_screen.dart';
 import 'package:vax_care_user/app_widgets/custom_error_widget.dart';
 
 class ParentProfileWidget extends StatefulWidget {
-  const ParentProfileWidget({super.key});
+  final VoidCallback logout;
+  const ParentProfileWidget({
+    super.key,
+    required this.logout,
+  });
 
   @override
   State<ParentProfileWidget> createState() => _ParentProfileWidgetState();
@@ -122,12 +129,19 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditParentScreen(),
+                          ),
+                        );
+                      },
                       icon: const Icon(Icons.edit),
                       label: const Text('Edit Profile'),
                     ),
                     ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: widget.logout,
                       icon: const Icon(
                         Icons.logout,
                         color: Colors.white,

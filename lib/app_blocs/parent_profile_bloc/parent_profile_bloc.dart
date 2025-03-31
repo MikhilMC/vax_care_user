@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:vax_care_user/app_modules/home_page_module/model/profile_model.dart';
-import 'package:vax_care_user/app_modules/home_page_module/service/get_profile_details.dart';
+import 'package:vax_care_user/app_models/profile_model/profile_model.dart';
+import 'package:vax_care_user/app_services/get_profile_details/get_profile_details.dart';
 
 part 'parent_profile_event.dart';
 part 'parent_profile_state.dart';

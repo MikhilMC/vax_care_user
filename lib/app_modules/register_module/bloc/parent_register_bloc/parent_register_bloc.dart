@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:vax_care_user/app_modules/register_module/class/parent_registration_details.dart';
-import 'package:vax_care_user/app_modules/register_module/model/register_response_model/register_response_model.dart';
+import 'package:vax_care_user/app_modules/register_module/model/parent_action_response_model/parent_action_response_model.dart';
 import 'package:vax_care_user/app_modules/register_module/service/register_parent.dart';
 
 part 'parent_register_event.dart';

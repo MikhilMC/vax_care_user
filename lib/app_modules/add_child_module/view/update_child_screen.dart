@@ -46,7 +46,6 @@ class _UpdateChildScreenState extends State<UpdateChildScreen> {
   late String? _selectedBloodGroup; // ✅ Store selected blood group
   bool _isImageSelected = false;
   File? _imageFile;
-  late String? _childImage;
   late String? _selectedGender;
   late bool? _havingSpecificHealthCondition;
 
@@ -189,12 +188,15 @@ class _UpdateChildScreenState extends State<UpdateChildScreen> {
                 );
                 _selectedBirthDate = child.birthdate;
                 _selectedBloodGroup = child.bloodGroup;
-                _childImage = child.photo;
                 _selectedGender = child.gender;
                 _havingSpecificHealthCondition =
                     child.medicalConditions != null;
               });
             },
+            error: (errorMessage) => AppHelpers.showErrorDialogue(
+              context,
+              errorMessage,
+            ),
           );
         },
         builder: (context, state) {
@@ -424,7 +426,7 @@ class _UpdateChildScreenState extends State<UpdateChildScreen> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Image(
                                             image: NetworkImage(
-                                              "${AppUrls.baseUrl}/$_childImage",
+                                              "${AppUrls.baseUrl}/${_childDetails.photo}",
                                             ),
                                           ),
                                         ),

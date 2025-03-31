@@ -35,7 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: VaccineBookingWidget(),
       ),
       Center(
-        child: ParentProfileWidget(),
+        child: ParentProfileWidget(
+          logout: _logout,
+        ),
       )
     ];
     super.initState();

@@ -18,4 +18,5 @@ class AppUrls {
 
   static const String getChildVaccinationHistoryUrl =
       "$userAppUrl/vaccination_history/";
+  static const String editParentUrl = "$userAppUrl/update_parent_profile/";
 }
