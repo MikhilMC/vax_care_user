@@ -2,12 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:vax_care_user/app_blocs/bloc/children_bloc.dart';
+import 'package:vax_care_user/app_blocs/children_bloc/children_bloc.dart';
 import 'package:vax_care_user/app_constants/app_colors.dart';
-import 'package:vax_care_user/app_modules/add_child_module/bloc/add_child_bloc.dart';
+import 'package:vax_care_user/app_modules/add_child_module/bloc/add_child_bloc/add_child_bloc.dart';
+import 'package:vax_care_user/app_modules/add_child_module/bloc/update_child_bloc/update_child_bloc.dart';
 import 'package:vax_care_user/app_modules/book_vaccine_module/bloc/book_vaccine_bloc/book_vaccine_bloc.dart';
 import 'package:vax_care_user/app_modules/book_vaccine_module/bloc/slots_bloc/slots_bloc.dart';
-import 'package:vax_care_user/app_modules/child_details_module/bloc/child_details_bloc.dart';
+import 'package:vax_care_user/app_blocs/child_details_bloc/child_details_bloc.dart';
 import 'package:vax_care_user/app_modules/home_page_module/bloc/healthcare_provider_list/healthcare_provider_list_bloc.dart';
 import 'package:vax_care_user/app_modules/home_page_module/bloc/parent_profile_bloc/parent_profile_bloc.dart';
 import 'package:vax_care_user/app_modules/home_page_module/bloc/retreive_user_name_bloc/retreive_user_name_bloc.dart';
@@ -91,6 +92,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => RetreiveUseridBloc(),
+        ),
+        BlocProvider(
+          create: (context) => UpdateChildBloc(),
         ),
       ],
       child: MaterialApp(

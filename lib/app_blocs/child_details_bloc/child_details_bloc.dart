@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:vax_care_user/app_modules/child_details_module/model/child_model.dart';
-import 'package:vax_care_user/app_modules/child_details_module/service/get_child_details.dart';
+import 'package:vax_care_user/app_models/child_model/child_model.dart';
+import 'package:vax_care_user/app_services/get_child_details/get_child_details.dart';
 
 part 'child_details_event.dart';
 part 'child_details_state.dart';

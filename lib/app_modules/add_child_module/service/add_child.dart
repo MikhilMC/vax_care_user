@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:vax_care_user/app_constants/app_urls.dart';
 import 'package:vax_care_user/app_modules/add_child_module/class/child_details.dart';
-import 'package:vax_care_user/app_modules/add_child_module/model/add_child_response_model/add_child_response_model.dart';
+import 'package:vax_care_user/app_modules/add_child_module/model/child_action_response_model/child_action_response_model.dart';
 
-Future<AddChildResponseModel> addChild({
+Future<ChildActionResponseModel> addChild({
   required ChildDetails childDetails,
 }) async {
   try {
@@ -45,8 +45,8 @@ Future<AddChildResponseModel> addChild({
 
     if (resp.statusCode == 201) {
       final dynamic decoded = jsonDecode(responseBody);
-      final AddChildResponseModel response =
-          AddChildResponseModel.fromJson(decoded);
+      final ChildActionResponseModel response =
+          ChildActionResponseModel.fromJson(decoded);
       return response;
     } else {
       final Map<String, dynamic> errorResponse = jsonDecode(responseBody);

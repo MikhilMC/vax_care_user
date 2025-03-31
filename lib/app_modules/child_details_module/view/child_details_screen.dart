@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:vax_care_user/app_constants/app_colors.dart';
 import 'package:vax_care_user/app_constants/app_urls.dart';
-import 'package:vax_care_user/app_modules/child_details_module/bloc/child_details_bloc.dart';
+import 'package:vax_care_user/app_blocs/child_details_bloc/child_details_bloc.dart';
+import 'package:vax_care_user/app_modules/add_child_module/view/update_child_screen.dart';
 import 'package:vax_care_user/app_modules/child_details_module/utils/helper.dart';
 import 'package:vax_care_user/app_modules/child_details_module/widget/bmi_card.dart';
 import 'package:vax_care_user/app_modules/child_details_module/widget/detail_card.dart';
@@ -34,7 +35,24 @@ class _ChildDetailsScreenState extends State<ChildDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Child Details')),
+      appBar: AppBar(
+        title: const Text('Child Details'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UpdateChildScreen(
+                    childId: widget.childId,
+                  ),
+                ),
+              );
+            },
+            child: Text("Update Child"),
+          )
+        ],
+      ),
       body: BlocBuilder<ChildDetailsBloc, ChildDetailsState>(
         builder: (context, state) {
           if (state is ChildDetailsError) {

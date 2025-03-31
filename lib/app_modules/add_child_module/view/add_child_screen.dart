@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:vax_care_user/app_constants/app_colors.dart';
-import 'package:vax_care_user/app_modules/add_child_module/bloc/add_child_bloc.dart';
+import 'package:vax_care_user/app_modules/add_child_module/bloc/add_child_bloc/add_child_bloc.dart';
 import 'package:vax_care_user/app_modules/add_child_module/class/child_details.dart';
 import 'package:vax_care_user/app_modules/add_child_module/widget/blood_group_dropdown.dart';
 import 'package:vax_care_user/app_modules/add_child_module/widget/gender_dropdown.dart';

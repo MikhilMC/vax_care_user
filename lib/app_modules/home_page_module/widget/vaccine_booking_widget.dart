@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:vax_care_user/app_blocs/bloc/children_bloc.dart';
+import 'package:vax_care_user/app_blocs/children_bloc/children_bloc.dart';
 import 'package:vax_care_user/app_constants/app_colors.dart';
 import 'package:vax_care_user/app_constants/app_urls.dart';
 import 'package:vax_care_user/app_modules/book_vaccine_module/view/book_vaccine_screen.dart';

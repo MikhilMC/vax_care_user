@@ -328,7 +328,7 @@ mixin _$AddChildState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(AddChildResponseModel response) success,
+    required TResult Function(ChildActionResponseModel response) success,
     required TResult Function(String errorMessage) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -336,7 +336,7 @@ mixin _$AddChildState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(AddChildResponseModel response)? success,
+    TResult? Function(ChildActionResponseModel response)? success,
     TResult? Function(String errorMessage)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -344,7 +344,7 @@ mixin _$AddChildState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(AddChildResponseModel response)? success,
+    TResult Function(ChildActionResponseModel response)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) =>
@@ -440,7 +440,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(AddChildResponseModel response) success,
+    required TResult Function(ChildActionResponseModel response) success,
     required TResult Function(String errorMessage) failure,
   }) {
     return initial();
@@ -451,7 +451,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(AddChildResponseModel response)? success,
+    TResult? Function(ChildActionResponseModel response)? success,
     TResult? Function(String errorMessage)? failure,
   }) {
     return initial?.call();
@@ -462,7 +462,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(AddChildResponseModel response)? success,
+    TResult Function(ChildActionResponseModel response)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {
@@ -557,7 +557,7 @@ class _$loadingImpl implements _loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(AddChildResponseModel response) success,
+    required TResult Function(ChildActionResponseModel response) success,
     required TResult Function(String errorMessage) failure,
   }) {
     return loading();
@@ -568,7 +568,7 @@ class _$loadingImpl implements _loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(AddChildResponseModel response)? success,
+    TResult? Function(ChildActionResponseModel response)? success,
     TResult? Function(String errorMessage)? failure,
   }) {
     return loading?.call();
@@ -579,7 +579,7 @@ class _$loadingImpl implements _loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(AddChildResponseModel response)? success,
+    TResult Function(ChildActionResponseModel response)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {
@@ -637,7 +637,7 @@ abstract class _$$successImplCopyWith<$Res> {
           _$successImpl value, $Res Function(_$successImpl) then) =
       __$$successImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({AddChildResponseModel response});
+  $Res call({ChildActionResponseModel response});
 }
 
 /// @nodoc
@@ -659,7 +659,7 @@ class __$$successImplCopyWithImpl<$Res>
       null == response
           ? _value.response
           : response // ignore: cast_nullable_to_non_nullable
-              as AddChildResponseModel,
+              as ChildActionResponseModel,
     ));
   }
 }
@@ -670,7 +670,7 @@ class _$successImpl implements _success {
   const _$successImpl(this.response);
 
   @override
-  final AddChildResponseModel response;
+  final ChildActionResponseModel response;
 
   @override
   String toString() {
@@ -702,7 +702,7 @@ class _$successImpl implements _success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(AddChildResponseModel response) success,
+    required TResult Function(ChildActionResponseModel response) success,
     required TResult Function(String errorMessage) failure,
   }) {
     return success(response);
@@ -713,7 +713,7 @@ class _$successImpl implements _success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(AddChildResponseModel response)? success,
+    TResult? Function(ChildActionResponseModel response)? success,
     TResult? Function(String errorMessage)? failure,
   }) {
     return success?.call(response);
@@ -724,7 +724,7 @@ class _$successImpl implements _success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(AddChildResponseModel response)? success,
+    TResult Function(ChildActionResponseModel response)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {
@@ -773,9 +773,10 @@ class _$successImpl implements _success {
 }
 
 abstract class _success implements AddChildState {
-  const factory _success(final AddChildResponseModel response) = _$successImpl;
+  const factory _success(final ChildActionResponseModel response) =
+      _$successImpl;
 
-  AddChildResponseModel get response;
+  ChildActionResponseModel get response;
 
   /// Create a copy of AddChildState
   /// with the given fields replaced by the non-null parameter values.
@@ -855,7 +856,7 @@ class _$failureImpl implements _failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(AddChildResponseModel response) success,
+    required TResult Function(ChildActionResponseModel response) success,
     required TResult Function(String errorMessage) failure,
   }) {
     return failure(errorMessage);
@@ -866,7 +867,7 @@ class _$failureImpl implements _failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(AddChildResponseModel response)? success,
+    TResult? Function(ChildActionResponseModel response)? success,
     TResult? Function(String errorMessage)? failure,
   }) {
     return failure?.call(errorMessage);
@@ -877,7 +878,7 @@ class _$failureImpl implements _failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(AddChildResponseModel response)? success,
+    TResult Function(ChildActionResponseModel response)? success,
     TResult Function(String errorMessage)? failure,
     required TResult orElse(),
   }) {

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:vax_care_user/app_constants/app_urls.dart';
 
-import 'package:vax_care_user/app_modules/child_details_module/model/child_model.dart';
+import 'package:vax_care_user/app_models/child_model/child_model.dart';
 
 Future<ChildModel> getChildDetails({required int childId}) async {
   try {

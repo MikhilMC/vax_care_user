@@ -1,30 +1,30 @@
 // To parse this JSON data, do
 //
-//     final addChildResponseModel = addChildResponseModelFromJson(jsonString);
+//     final childActionResponseModel = childActionResponseModelFromJson(jsonString);
 
 import 'dart:convert';
 
 import 'package:vax_care_user/app_modules/add_child_module/model/child_data_model/child_data_model.dart';
 
-AddChildResponseModel addChildResponseModelFromJson(String str) =>
-    AddChildResponseModel.fromJson(json.decode(str));
+ChildActionResponseModel childActionResponseModelFromJson(String str) =>
+    ChildActionResponseModel.fromJson(json.decode(str));
 
-String addChildResponseModelToJson(AddChildResponseModel data) =>
+String childActionResponseModelToJson(ChildActionResponseModel data) =>
     json.encode(data.toJson());
 
-class AddChildResponseModel {
+class ChildActionResponseModel {
   String status;
   String message;
   ChildDataModel data;
 
-  AddChildResponseModel({
+  ChildActionResponseModel({
     required this.status,
     required this.message,
     required this.data,
   });
 
-  factory AddChildResponseModel.fromJson(Map<String, dynamic> json) =>
-      AddChildResponseModel(
+  factory ChildActionResponseModel.fromJson(Map<String, dynamic> json) =>
+      ChildActionResponseModel(
         status: json["status"],
         message: json["message"],
         data: ChildDataModel.fromJson(json["data"]),
